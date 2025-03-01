@@ -1,0 +1,23 @@
+Celebrities {}
+
+User {}
+
+WriteAPI: {}
+
+FanoutService: {}
+
+UserCache: {}
+
+ReadAPI: {}
+
+
+Celebrities -> WriteAPI: Write a blog
+
+WriteAPI -> FanoutService: Fanout to followers
+
+FanoutService -> UserCache: Update cache
+
+ReadAPI -> UserCache: Read cache
+
+User -> ReadAPI: Request feed
+
