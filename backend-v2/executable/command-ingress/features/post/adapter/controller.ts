@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { BaseController } from '../../../shared/base-controller';
 import { PostService } from '../types';
-import { CreatePostBody, GetPostDto } from './dto';
+import { CreatePostBody, GetPostDto, UpdatePostDto } from './dto';
 import responseValidationError from '../../../shared/response';
 import { HttpRequest } from '../../../types';
 
@@ -58,6 +58,24 @@ export class PostController extends BaseController {
       const posts = await this.service.fetchPostsByUser(id);
 
       res.status(200).json(posts);
+    });
+  }
+
+  async editPost(req: HttpRequest, res: Response, next: NextFunction): Promise<void> {
+    await this.execWithTryCatchBlock(req, res, next, async (req, res, _next) => {
+      const id = req.params.id;
+      const updatePostBody = new UpdatePostDto(req.body);
+      const validateResult = await updatePostBody.validate();
+      if (!validateResult.ok) {
+        responseValidationError(res, validateResult.errors[0]);
+        return;
+      }
+
+      const post = await this.service.editPost(id, {
+        ...updatePostBody,
+      });
+
+      res.status(200).json(post);
     });
   }
 }

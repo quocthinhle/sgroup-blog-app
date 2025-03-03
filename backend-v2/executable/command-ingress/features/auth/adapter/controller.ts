@@ -6,8 +6,6 @@ import { BaseController } from '../../../shared/base-controller';
 import responseValidationError from '../../../shared/response';
 import { HttpRequest } from '../../../types';
 
-
-
 class AuthController extends BaseController {
   service: AuthService;
 

@@ -1,8 +1,27 @@
 import Post from '../../../../../internal/model/post';
 import User from '../../../../../internal/model/user';
-import { PostEntity, PostCreationDto, PostService } from '../types';
+import { PostEntity, PostCreationDto, PostService, UpdatePostDto } from '../types';
 
 export class PostServiceImpl implements PostService {
+  async editPost(
+    id: string,
+    editPostDto: UpdatePostDto,
+  ): Promise<PostEntity> {
+    const existPost = await Post.findOne({ _id: id });
+    if (!existPost) {
+      throw new Error('Post does not exist');
+    }
+
+    const updatedPost = await Post.updateOne({ _id: id }, {
+
+    });
+
+    return {
+      // ...
+    }
+
+  }
+
   async getPost(id: string): Promise<PostEntity> {
     const post = await Post.findOne({ _id: id });
 
@@ -72,6 +91,4 @@ export class PostServiceImpl implements PostService {
       createdAt: Number(insertResult.createdAt),
     }
   }
-
-
 }
